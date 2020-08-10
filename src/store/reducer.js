@@ -1,6 +1,6 @@
 const initialState = {
 	user: {
-		name: 'Helva',
+		name: 'Micah',
 	},
 	pizzas: [
 		{
