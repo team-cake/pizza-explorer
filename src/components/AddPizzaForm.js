@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 export default function AddPizzaForm() {
+	const dispatch = useDispatch()
+
 	const [name, set_name] = useState('')
 	const [description, set_description] = useState('')
 
@@ -9,7 +12,12 @@ export default function AddPizzaForm() {
 		event.preventDefault()
 
 		console.log('new pizza:', name, description)
-
+		dispatch({
+			type: 'ADD_PIZZA',
+			payload: { id: Math.random(), name, description },
+		})
+		set_name('')
+		set_description('')
 		// TODO:
 		// - dispatch the ADD_PIZZA action
 		// - clear the input fields
