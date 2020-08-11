@@ -1,6 +1,7 @@
 const initialState = {
 	user: {
 		name: 'Micah',
+		favorites: [161235, 357314],
 	},
 	pizzas: [
 		{
@@ -19,10 +20,16 @@ const initialState = {
 		},
 		{
 			id: 357311,
-			name: 'Pizza Bianca',
+			name: 'Pizza Bianca ',
 			description:
 				'White pizza, which omits tomato sauce from the equation, often substituting it with pesto or sour cream.',
 			bought: 10,
+		},
+		{
+			id: 357314,
+			name: 'Pizza Hawaii',
+			description: 'The pizza for people who are not in their right mind',
+			bought: 15,
 		},
 	],
 }
@@ -42,6 +49,24 @@ export default function reducer(state = initialState, action) {
 						bought: 0,
 					},
 				],
+			}
+		}
+		case 'TOGGLE_FAVORITE_PIZZA': {
+			// => Ask yourself: what is action.payload?
+			const id = action.payload
+			let favorites = state.user.favorites
+			if (favorites.includes(id)) {
+				favorites.splice(favorites.indexOf(id), 1)
+			} else {
+				favorites.push(id)
+			}
+			return {
+				...state,
+				user: {
+					...state.user,
+					favorites,
+					// because we
+				},
 			}
 		}
 		default: {
