@@ -1,37 +1,60 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 
 const selectUser = (reduxState) => {
 	return reduxState.user
 }
 
-const listOfPizza = (reduxState) => {
-	return reduxState.pizzas
+const selectPizzas = (reduxState) => {
+	return reduxState.pizzas.slice().sort((a, b) => {
+		return b.bought - a.bought
+	})
+}
+
+const selectFavorites = (reduxState) => {
+	return reduxState.user.favorites
 }
 
 export default function PizzaList() {
+	const dispatch = useDispatch()
 	const user = useSelector(selectUser)
-	const pizzas = useSelector(listOfPizza)
-	console.log('what kind of pizza', pizzas)
+	const pizzas = useSelector(selectPizzas)
+	const favorites = useSelector(selectFavorites)
+	// console.log('fav', favorites)
 	return (
 		<div>
 			<h1>Pizza Explorer</h1>
 			<p>
 				Welcome back, <strong>{user.name}</strong>! Your favorite pizzas:
 			</p>
-			<p>TODO: the list of pizzas</p>
+			<p>The list of pizza's</p>
 			<br />
-			<p>
-                {pizzas.sort((a, b) => b.bought - a.bought)
-                .map((pizza) => {
+			<ul>
+				{pizzas.map((pizza) => {
+					const toggle = () => {
+						dispatch({
+							type: 'TOGGLE_FAVORITE_PIZZA',
+							payload: pizza.id,
+						})
+					}
 					return (
-						<div>
-							<ul><b>Name: {pizza.name}</b> - Ate {pizza.bought} of these!</ul> 
-                            Description: {pizza.description} 
-						</div>
+						<li key={pizza.id}>
+							<div>
+								<ul>
+									<b>{pizza.name}</b>{' '}
+									<button onClick={toggle}>
+										{user.favorites.includes(pizza.id) ? '♥' : '♡'}
+									</button>{' '}
+									- Ate this {pizza.bought} times.
+								</ul>
+								{pizza.description}
+								<br />
+								<br />
+							</div>
+						</li>
 					)
 				})}
-			</p>
+			</ul>
 		</div>
 	)
 }
