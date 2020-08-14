@@ -1,7 +1,11 @@
 const initialState = {
 	user: {
 		name: 'Micah',
-		favorites: [161235, 357314],
+		favorites: [
+			161235,
+			// 357314
+		],
+		darkMode: false,
 	},
 	pizzas: [
 		{
@@ -10,6 +14,7 @@ const initialState = {
 			description:
 				'The typical Neapolitan pizza, made with San Marzano tomatoes, mozzarella cheese, fresh basil, salt and extra-virgin olive oil.',
 			bought: 5,
+			ingredients: ['tomatoes', 'mozzarella', 'basil', 'oil'],
 		},
 		{
 			id: 67283,
@@ -17,6 +22,7 @@ const initialState = {
 			description:
 				'Neapolitan pizza also known as Naples-style pizza, is a style of pizza made with tomatoes and mozzarella cheese.',
 			bought: 2,
+			ingredients: ['tomatoes', 'mozzarella', 'oil'],
 		},
 		{
 			id: 357311,
@@ -24,13 +30,15 @@ const initialState = {
 			description:
 				'White pizza, which omits tomato sauce from the equation, often substituting it with pesto or sour cream.',
 			bought: 10,
+			ingredients: ['ricotta', 'mozzarella', 'garlic'],
 		},
-		{
-			id: 357314,
-			name: 'Pizza Hawaii',
-			description: 'The pizza for people who are not in their right mind',
-			bought: 15,
-		},
+		// {
+		// 	id: 357314,
+		// 	name: 'Pizza Hawaii',
+		// 	description: 'The pizza for people who are not in their right mind',
+		// 	bought: 15,
+		// 	ingredients: ['ham', 'mozzarella', 'pineapple'],
+		// },
 	],
 }
 
@@ -65,8 +73,14 @@ export default function reducer(state = initialState, action) {
 				user: {
 					...state.user,
 					favorites,
-					// because we
+					// because we want to show fav pizza of user
 				},
+			}
+		}
+		case 'TOGGLE_DARKMODE': {
+			return {
+				...state,
+				user: { ...state.user, darkMode: !state.user.darkMode },
 			}
 		}
 		default: {
